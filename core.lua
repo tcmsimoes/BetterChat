@@ -14,7 +14,9 @@ local function chatFilter(_, event, msg, player, _, _, _, flag, channelId, _, _,
         local lowMsg = msg:lower()
         for i=1, #BC_SavedVars["filters"] do
             if lowMsg:find(BC_SavedVars["filters"][i]) then
-                --print("Filtering message "..msg)
+                if BC_SavedVars["debug"] ~= 0 then
+                    print("BC Filtering message: "..msg)
+                end
                 filterPreviousLine = true
             end
         end
@@ -28,7 +30,35 @@ myFrame:SetScript("OnEvent", function(self, event, ...)
         if not BC_SavedVars["filters"] then
             BC_SavedVars["filters"] = { ".*wts.*boost.*" }
         end
+        if not BC_SavedVars["debug"] then
+            BC_SavedVars["debug"] = 0
+        end
 
         ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", chatFilter)
     end
 end)
+
+SLASH_BC1 = "/bc"
+SlashCmdList["BC"] = function(msg)
+    local _, _, cmd, args = string.find(msg, "%s?(%w+)%s?(.*)")
+
+    if cmd == "add" and args ~= "" then
+        table.insert(BC_SavedVars["filters"], args)
+    elseif cmd == "remove" and args ~= "" then
+        table.remove(BC_SavedVars["filters"], args)
+    elseif cmd == "debug" then
+        if args == "on" then
+            BC_SavedVars["debug"] = 1
+        else
+            BC_SavedVars["debug"] = 0
+        end
+    else
+        print("Available commands are /bc add|remove <regex> or /bc debug on|off")
+    end
+
+    print("BetterChat debug: "..BC_SavedVars["debug"])
+    print("BetterChat filters:")
+    for i=1, #BC_SavedVars["filters"] do
+        print("    "..i..": '"..BC_SavedVars["filters"][i].."'")
+    end
+end 
