@@ -1,8 +1,7 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: BetterChat
 ## Notes: Removes chat messages from general/trade (e.g. to avoid spammers)
 ## Author: Banksy
-## Version: 1.0
 ## SavedVariables: BC_SavedVars
 
 core.lua
