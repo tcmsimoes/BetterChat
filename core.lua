@@ -2,8 +2,8 @@ local myFrame = CreateFrame("Frame")
 myFrame:RegisterEvent("VARIABLES_LOADED")
 
 BC_SavedVars = {}
-previousLineId = -1
-filterPreviousLine = false
+local previousLineId = -1
+local filterPreviousLine = false
 
 local function chatFilter(_, event, msg, player, _, _, _, flag, channelId, _, _, _, lineId, guid)
     if lineId ~= previousLineId then
@@ -28,7 +28,24 @@ end
 myFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "VARIABLES_LOADED" then
         if not BC_SavedVars["filters"] then
-            BC_SavedVars["filters"] = { ".*wts.*boost.*" }
+            BC_SavedVars["filters"] = {
+                ".*wts.*boost.*",
+                ".*wts.*vip trader.*",
+                ".*sell.*vip trader.*",
+                ".*offer.*vip trader.*",
+                ".*nova.*wts.*",
+                ".*nova.*offer.*",
+                ".*nova.*sell.*",
+                ".*nova.*armor stack.*",
+                ".*sylvanas.*wts.*",
+                ".*sylvanas.*offer.*",
+                ".*sylvanas.*sell.*",
+                ".*sylvanas.*armor stack.*",
+                ".*dawn.*wts.*",
+                ".*dawn.*offer.*",
+                ".*dawn.*sell.*",
+                ".*dawn.*armor stack.*"
+            }
         end
         if not BC_SavedVars["debug"] then
             BC_SavedVars["debug"] = "off"
