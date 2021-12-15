@@ -25,27 +25,34 @@ local function chatFilter(_, event, msg, player, _, _, _, flag, channelId, _, _,
     return filterPreviousLine
 end
 
+local function setFilterPatterns()
+    BC_SavedVars["filters"] = {
+        ".*wts.*boost.*",
+        ".*wts.*vip trader.*",
+        ".*sell.*vip trader.*",
+        ".*offer.*vip trader.*",
+        ".*<\\s*nova\\s*>.*",
+        ".*nova.*wts.*",
+        ".*nova.*offer.*",
+        ".*nova.*sell.*",
+        ".*nova.*armor stack.*",
+        ".*<\\s*sylvanas\\s*>.*",
+        ".*sylvanas.*wts.*",
+        ".*sylvanas.*offer.*",
+        ".*sylvanas.*sell.*",
+        ".*sylvanas.*armor stack.*",
+        ".*<\\s*dawn\\s*>.*",
+        ".*dawn.*wts.*",
+        ".*dawn.*offer.*",
+        ".*dawn.*sell.*",
+        ".*dawn.*armor stack.*"
+    }
+end
+
 myFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "VARIABLES_LOADED" then
         if not BC_SavedVars["filters"] then
-            BC_SavedVars["filters"] = {
-                ".*wts.*boost.*",
-                ".*wts.*vip trader.*",
-                ".*sell.*vip trader.*",
-                ".*offer.*vip trader.*",
-                ".*nova.*wts.*",
-                ".*nova.*offer.*",
-                ".*nova.*sell.*",
-                ".*nova.*armor stack.*",
-                ".*sylvanas.*wts.*",
-                ".*sylvanas.*offer.*",
-                ".*sylvanas.*sell.*",
-                ".*sylvanas.*armor stack.*",
-                ".*dawn.*wts.*",
-                ".*dawn.*offer.*",
-                ".*dawn.*sell.*",
-                ".*dawn.*armor stack.*"
-            }
+            setFilterPatterns()
         end
         if not BC_SavedVars["debug"] then
             BC_SavedVars["debug"] = "off"
@@ -65,8 +72,10 @@ SlashCmdList["BC"] = function(msg)
         table.remove(BC_SavedVars["filters"], args)
     elseif cmd == "debug" then
         BC_SavedVars["debug"] = args
+    elseif cmd == "reset" then
+        setFilterPatterns()
     else
-        print("Available commands are: /bc add/remove <regex> or /bc debug on/off")
+        print("Available commands are: /bc add/remove <regex> /bc debug on/off /bc reset")
     end
 
     print("BetterChat debug: "..BC_SavedVars["debug"])
